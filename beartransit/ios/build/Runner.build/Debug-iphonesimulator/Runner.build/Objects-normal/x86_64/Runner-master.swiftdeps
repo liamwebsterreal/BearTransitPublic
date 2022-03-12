@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)"
+options: "7f08e89d582bc702a1b1cd00f5fe7ad3b8775dd4c9430930b1e8621c37736931"
+build_start_time: [1636431171, 523707866]
+build_end_time: [1636431171, 843093872]
+inputs:
+  "/Users/liamwebster/Documents/Projects/BearTransit/beartransit/ios/Runner/AppDelegate.swift": !private [1636430161, 704999446]

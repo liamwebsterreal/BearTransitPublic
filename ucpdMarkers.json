@@ -1,0 +1,37 @@
+{
+	"Mark1":
+	{
+		"description": "The Fellowship of the Ring",
+		"lat": 37.87414537699706,
+		"long": -122.26610000564193,
+		"time": "10:57am"
+	},
+	"Mark2":
+	{
+		"description": "The Two Towers",
+		"lat": 37.87279033625705,
+		"long": -122.2542124554823,
+		"time": "12:01pm"
+	},
+	"Mark3":
+	{
+		"description": "The Return of the King",
+		"lat": 37.87570364305629,
+		"long": -122.24584396342668,
+		"time": "4:56pm"
+	},
+	"Mark4":
+	{
+		"description": "Brida",
+		"lat": 37.86714072334541,
+		"long": -122.25893345960212,
+		"time": "7:42am"
+	},
+    "Mark5":
+	{
+		"description": "Cryyyyy",
+		"lat": 37.868055448716454,
+		"long": -122.26503816722021,
+		"time": "2:42am"
+	}
+}
