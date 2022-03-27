@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "bear_transit_app",
+            "cwd": "bear_transit_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "bear_transit_app (profile mode)",
+            "cwd": "bear_transit_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "bear_transit_app (release mode)",
+            "cwd": "bear_transit_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "beartransit",
+            "cwd": "beartransit",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "beartransit (profile mode)",
+            "cwd": "beartransit",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "beartransit (release mode)",
+            "cwd": "beartransit",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

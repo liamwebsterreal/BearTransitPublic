@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:beartransit/src/blocs/busWidget_bloc.dart';
 import 'package:beartransit/src/blocs/busWidget_event.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animarker/flutter_map_marker_animation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -40,6 +42,7 @@ class _MapSampleState extends State<bearmap> {
   Set<Marker> pLine = {};
   Set<Marker> rLine = {};
   Set<Marker> ucpdMarkers = {};
+  Set<Marker> markers = {};
 
   busLine c_Line = returnCLine();
   busLine h_Line = returnHLine();
@@ -107,36 +110,38 @@ class _MapSampleState extends State<bearmap> {
             ],
             child: Stack(
               children: [
-                GoogleMap(
-                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                      new Factory<OneSequenceGestureRecognizer>(
-                        () => new EagerGestureRecognizer(),
-                      ),
-                    ].toSet(),
-                    initialCameraPosition: _sathersGate,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    mapType: MapType.normal,
-                    compassEnabled: false,
-                    polylines: polylines,
-                    markers: ucpdMarkers
-                        .union(cLine)
-                        .union(hLine)
-                        .union(pLine)
-                        .union(rLine),
-                    minMaxZoomPreference: new MinMaxZoomPreference(13, null),
-                    cameraTargetBounds: new CameraTargetBounds(
-                      new LatLngBounds(
-                        northeast: LatLng(37.884099, -122.236797),
-                        southwest: LatLng(37.864828, -122.268025),
-                      ),
-                    ),
-                    onMapCreated: (GoogleMapController controller) {
-                      setState(() {
-                        _controller.complete(controller);
-                        controller.setMapStyle(_mapStyle);
-                      });
-                    }),
+                Animarker(
+                    useRotation: true,
+                    child: GoogleMap(
+                        gestureRecognizers:
+                            <Factory<OneSequenceGestureRecognizer>>[
+                          new Factory<OneSequenceGestureRecognizer>(
+                            () => new EagerGestureRecognizer(),
+                          ),
+                        ].toSet(),
+                        initialCameraPosition: _sathersGate,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: false,
+                        mapType: MapType.normal,
+                        compassEnabled: false,
+                        polylines: polylines,
+                        markers: cLine.union(hLine).union(pLine).union(rLine),
+                        minMaxZoomPreference:
+                            new MinMaxZoomPreference(13, null),
+                        cameraTargetBounds: new CameraTargetBounds(
+                          new LatLngBounds(
+                            northeast: LatLng(37.884099, -122.236797),
+                            southwest: LatLng(37.864828, -122.268025),
+                          ),
+                        ),
+                        onMapCreated: (GoogleMapController controller) {
+                          setState(() {
+                            _controller.complete(controller);
+                            controller.setMapStyle(_mapStyle);
+                          });
+                        }),
+                    mapId:
+                        _controller.future.then<int>((value) => value.mapId)),
                 BlocBuilder<Buswidgetbloc, BuswidgetState>(
                     bloc: buswidgetBloc,
                     builder: (context, state) {
@@ -207,6 +212,7 @@ class _MapSampleState extends State<bearmap> {
               onTap: () {
                 polylines = setColorpolylines(index);
                 buswidgetBloc.add(ChangeBusWidget(index));
+
                 setState(() {
                   _controller.future;
                 });

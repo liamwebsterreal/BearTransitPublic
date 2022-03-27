@@ -6,7 +6,6 @@ import 'bus_state.dart';
 import 'package:beartransit/src/repositories/busRepository.dart';
 
 class busBloc extends Bloc<HasDataEvent, busState> {
-
   final busRepository repository;
   late Set<Marker> cLine;
   late Set<Marker> hLine;
@@ -29,7 +28,7 @@ class busBloc extends Bloc<HasDataEvent, busState> {
       pLine.clear();
       rLine.clear();
       event.busMarkers.forEach((element) {
-        if (int.parse(element.markerId.value) < 100){
+        if (int.parse(element.markerId.value) < 100) {
           cLine.add(element);
         } else if (int.parse(element.markerId.value) < 200) {
           hLine.add(element);
@@ -39,7 +38,7 @@ class busBloc extends Bloc<HasDataEvent, busState> {
           rLine.add(element);
         }
       });
-      yield busLoadedState(cLine,hLine,pLine,rLine);
+      yield busLoadedState(cLine, hLine, pLine, rLine);
     }
   }
 

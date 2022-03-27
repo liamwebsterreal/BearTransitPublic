@@ -52,8 +52,9 @@ class busRepositoryFirebase extends busRepository {
       Map<String, dynamic> _data = {};
       _data = Map<String, dynamic>.from(event.snapshot.value);
       _data.forEach((key, value) {
-        print('$key: $value');
+        //print('$key: $value');
         _cache.add(Marker(
+          anchor: Offset(0.5, 0.5),
           markerId: MarkerId(key),
           position: LatLng(value['lat'], value['long']),
           infoWindow: InfoWindow(title: value['capacity']),

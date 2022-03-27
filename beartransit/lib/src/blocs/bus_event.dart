@@ -6,5 +6,4 @@ class HasDataEvent extends busEvents {
   Set<Marker> busMarkers;
 
   HasDataEvent(this.busMarkers);
-
 }
