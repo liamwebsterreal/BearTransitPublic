@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Firestore Demo app',
+      title: 'Bear Transit',
       theme: ThemeData(),
       home: MultiRepositoryProvider(
         providers: [

@@ -68,6 +68,10 @@ flutter:
     - lib/src/resources/assets/hlinebus.png
     - lib/src/resources/assets/plinebus.png
     - lib/src/resources/assets/rlinebus.png
+    - lib/src/resources/assets/bustopC.png
+    - lib/src/resources/assets/bustopH.png
+    - lib/src/resources/assets/bustopP.png
+    - lib/src/resources/assets/bustopR.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

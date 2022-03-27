@@ -42,7 +42,6 @@ class _MapSampleState extends State<bearmap> {
   Set<Marker> pLine = {};
   Set<Marker> rLine = {};
   Set<Marker> ucpdMarkers = {};
-  Set<Marker> markers = {};
 
   busLine c_Line = returnCLine();
   busLine h_Line = returnHLine();
@@ -110,38 +109,35 @@ class _MapSampleState extends State<bearmap> {
             ],
             child: Stack(
               children: [
-                Animarker(
-                    useRotation: true,
-                    child: GoogleMap(
-                        gestureRecognizers:
-                            <Factory<OneSequenceGestureRecognizer>>[
-                          new Factory<OneSequenceGestureRecognizer>(
-                            () => new EagerGestureRecognizer(),
-                          ),
-                        ].toSet(),
-                        initialCameraPosition: _sathersGate,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: false,
-                        mapType: MapType.normal,
-                        compassEnabled: false,
-                        polylines: polylines,
-                        markers: cLine.union(hLine).union(pLine).union(rLine),
-                        minMaxZoomPreference:
-                            new MinMaxZoomPreference(13, null),
-                        cameraTargetBounds: new CameraTargetBounds(
-                          new LatLngBounds(
-                            northeast: LatLng(37.884099, -122.236797),
-                            southwest: LatLng(37.864828, -122.268025),
-                          ),
-                        ),
-                        onMapCreated: (GoogleMapController controller) {
-                          setState(() {
-                            _controller.complete(controller);
-                            controller.setMapStyle(_mapStyle);
-                          });
-                        }),
-                    mapId:
-                        _controller.future.then<int>((value) => value.mapId)),
+                GoogleMap(
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                      new Factory<OneSequenceGestureRecognizer>(
+                        () => new EagerGestureRecognizer(),
+                      ),
+                    ].toSet(),
+                    initialCameraPosition: _sathersGate,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    mapType: MapType.normal,
+                    compassEnabled: false,
+                    polylines: polylines,
+                    markers: cLine.union(hLine).union(pLine).union(rLine),
+                    //.union(busstopHmarkers())
+                    //.union(busstopPmarkers())
+                    //.union(busstopRmarkers()),
+                    minMaxZoomPreference: new MinMaxZoomPreference(13, null),
+                    cameraTargetBounds: new CameraTargetBounds(
+                      new LatLngBounds(
+                        northeast: LatLng(37.884099, -122.236797),
+                        southwest: LatLng(37.864828, -122.268025),
+                      ),
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      setState(() {
+                        _controller.complete(controller);
+                        controller.setMapStyle(_mapStyle);
+                      });
+                    }),
                 BlocBuilder<Buswidgetbloc, BuswidgetState>(
                     bloc: buswidgetBloc,
                     builder: (context, state) {
