@@ -37,12 +37,18 @@ class _MapSampleState extends State<bearmap> {
 
   late Set<Polyline> polylines = {};
 
-  Set<Marker> cLine = {};
-  Set<Marker> hLine = {};
-  Set<Marker> pLine = {};
-  Set<Marker> rLine = {};
+  Set<Marker> cLine_buses = {};
+  Set<Marker> hLine_buses = {};
+  Set<Marker> pLine_buses = {};
+  Set<Marker> rLine_buses = {};
   Set<Marker> ucpdMarkers = {};
-  Set<Marker> markers = {};
+  Set<Marker> cBusStopMarkers = {};
+  Set<Marker> hBusStopMarkers = {};
+  Set<Marker> pBusStopMarkers = {};
+  Set<Marker> rBusStopMarkers = {};
+  Set<Marker> totalBusMarkers = {};
+
+  late BitmapDescriptor BusStopIcon;
 
   busLine c_Line = returnCLine();
   busLine h_Line = returnHLine();
@@ -54,9 +60,20 @@ class _MapSampleState extends State<bearmap> {
     zoom: 15,
   );
 
+  void setCustomHlinePin() async {
+    try {
+      BusStopIcon = await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(devicePixelRatio: 0.5),
+          'lib/src/resources/assets/busStop.png');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    setCustomHlinePin();
     ucpdbloc = BlocProvider.of(context);
     busbloc = BlocProvider.of(context);
     rootBundle
@@ -97,10 +114,14 @@ class _MapSampleState extends State<bearmap> {
               BlocListener<busBloc, busState>(
                 listener: (context, data) {
                   if (data is busLoadedState) {
-                    cLine = data.cLine;
-                    hLine = data.hLine;
-                    pLine = data.pLine;
-                    rLine = data.rLine;
+                    cLine_buses = data.cLine;
+                    hLine_buses = data.hLine;
+                    pLine_buses = data.pLine;
+                    rLine_buses = data.rLine;
+                    totalBusMarkers.addAll(cLine_buses);
+                    totalBusMarkers.addAll(hLine_buses);
+                    totalBusMarkers.addAll(pLine_buses);
+                    totalBusMarkers.addAll(rLine_buses);
                     setState(() {
                       _controller.future;
                     });
@@ -125,7 +146,7 @@ class _MapSampleState extends State<bearmap> {
                         mapType: MapType.normal,
                         compassEnabled: false,
                         polylines: polylines,
-                        markers: cLine.union(hLine).union(pLine).union(rLine),
+                        markers: totalBusMarkers.union(ucpdMarkers),
                         minMaxZoomPreference:
                             new MinMaxZoomPreference(13, null),
                         cameraTargetBounds: new CameraTargetBounds(
@@ -208,11 +229,13 @@ class _MapSampleState extends State<bearmap> {
               child: busCard(
                   [state.cline, state.hline, state.pline, state.rline]
                       .elementAt(index),
-                  [cLine, hLine, pLine, rLine].elementAt(index)),
+                  [cLine_buses, hLine_buses, pLine_buses, rLine_buses]
+                      .elementAt(index)),
               onTap: () {
                 polylines = setColorpolylines(index);
+                Set<Marker> tempBusstops = busStopMarkers(index, BusStopIcon);
+                totalBusMarkers.addAll(tempBusstops);
                 buswidgetBloc.add(ChangeBusWidget(index));
-
                 setState(() {
                   _controller.future;
                 });
@@ -351,6 +374,11 @@ class _MapSampleState extends State<bearmap> {
                         icon: Icon(Icons.close),
                         onPressed: () {
                           polylines = setGreyPolylines();
+                          totalBusMarkers.clear();
+                          totalBusMarkers.addAll(cLine_buses);
+                          totalBusMarkers.addAll(hLine_buses);
+                          totalBusMarkers.addAll(pLine_buses);
+                          totalBusMarkers.addAll(rLine_buses);
                           buswidgetBloc.add(ChangeBusWidget(5));
                           setState(() {
                             _controller.future;
