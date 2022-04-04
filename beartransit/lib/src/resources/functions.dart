@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 busLine returnCLine() {
   return busLine(
       'C-Line',
+      'Central Line',
       'Weekdays 6:45 a.m. to 11:15 a.m. 4:15 p.m. to 7:15 p.m.',
       'Every 20 minutes.',
       AssetImage('lib/src/resources/assets/c_line.png'),
@@ -16,6 +17,7 @@ busLine returnCLine() {
 busLine returnHLine() {
   return busLine(
       'H-Line',
+      'Hill Line',
       'Weekdays 7:35 a.m. to 7:25 p.m.',
       'Every 30 minutes.',
       AssetImage('lib/src/resources/assets/h_line.png'),
@@ -25,6 +27,7 @@ busLine returnHLine() {
 busLine returnPLine() {
   return busLine(
       'P-Line',
+      'Perimeter Line(Clockwise)',
       'Weekdays 7:00 a.m. to 7:30 p.m.',
       'Every 30 minutes.',
       AssetImage('lib/src/resources/assets/p_line.png'),
@@ -34,210 +37,249 @@ busLine returnPLine() {
 busLine returnRLine() {
   return busLine(
       'R-Line',
+      'Reverse Line(Counterclockwise)',
       'Weekdays 7:15 am to 6:45pm',
       'Every 30 minutes.',
       AssetImage('lib/src/resources/assets/r_line.png'),
       'Uphill via Channing & Piedmont|Downhill via Hearst');
 }
 
-Set<Marker> busstopRmarkers() {
+Set<Marker> busstopRmarkers(BitmapDescriptor BusStopIcon) {
   Set<Marker> busstops = {};
   busstops.add(Marker(
     markerId: MarkerId('Shattuck & Channing'),
     position: LatLng(37.86578317615426, -122.26722469575607),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Ellsworth & Channing'),
     position: LatLng(37.866302075115, -122.26317455269806),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Unit 3'),
     position: LatLng(37.866781803211865, -122.2595056914358),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Bowdwitch & Channing'),
     position: LatLng(37.86711265197118, -122.25679419213083),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Unit 1'),
     position: LatLng(37.86741258860394, -122.25447276866072),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Unit 2'),
     position: LatLng(37.86598187991625, -122.25404723766565),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Clark Kerr'),
     position: LatLng(37.86591178790179, -122.24996569802282),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Channing Circle'),
     position: LatLng(37.86809233489309, -122.25185019233096),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('International House'),
     position: LatLng(37.86977494123695, -122.25215034366595),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Haas'),
     position: LatLng(37.87142751720013, -122.25258347343103),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Greek Theatre'),
     position: LatLng(37.87426170359741, -122.25557738779713),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Hearst Mining Circle'),
     position: LatLng(37.87340995957892, -122.25742388825078),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Cory Hall'),
     position: LatLng(37.875317372694866, -122.25795960143334),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('North Gate'),
     position: LatLng(37.87513443112653, -122.26034561441998),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Hearst & Arch'),
     position: LatLng(37.87443402689348, -122.26415932333799),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Hearst & Oxford'),
     position: LatLng(37.87383484011922, -122.26637617595013),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Walnut & University'),
     position: LatLng(37.87239463873226, -122.26735401477542),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Shattuck & Addison'),
     position: LatLng(37.86948683953063, -122.26813090766193),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
     markerId: MarkerId('Shattuck & Kittredge'),
     position: LatLng(37.868293077376386, -122.26806016393576),
+    icon: BusStopIcon,
   ));
   return busstops;
 }
 
-Set<Marker> busstopPmarkers() {
+Set<Marker> busstopPmarkers(BitmapDescriptor BusStopIcon) {
   Set<Marker> busstops = {};
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Shattuck & Bancroft'),
     position: LatLng(37.867696515999235, -122.26749721114685),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Ellsworth & Bancroft '),
     position: LatLng(37.868156056864265, -122.26409708248677),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Dana & Bancroft'),
     position: LatLng(37.86852213228107, -122.26177066351562),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Bowdwitch & Bancroft'),
     position: LatLng(37.86902663659265, -122.25719576252816),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('College & Bancroft'),
     position: LatLng(37.8693304810575, -122.25514469131065),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('College & Haste'),
     position: LatLng(37.86681408799863, -122.25407305777493),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Channing Circle'),
     position: LatLng(37.86681408799863, -122.25407305777493),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Piedmont & Bancroft'),
     position: LatLng(37.867490876972695, -122.25198824342772),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Haas'),
     position: LatLng(37.869727312720485, -122.25239351574095),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Greek Theatre'),
     position: LatLng(37.87143766343319, -122.25284555024541),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Hearst Mining Circle'),
     position: LatLng(37.872612737504, -122.25398343020142),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Cory Hall'),
     position: LatLng(37.87342174358096, -122.2574126574895),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('North Gate'),
     position: LatLng(37.87531656712065, -122.25796990695409),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Arch & Hearst'),
     position: LatLng(37.87492899354875, -122.26043271565862),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Oxford & University'),
     position: LatLng(37.874427605661104, -122.26415420668056),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Downtown Berkeley Bart'),
     position: LatLng(37.87271859926879, -122.26595129270471),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Shattuck & Kittredge'),
     position: LatLng(37.86987624543674, -122.26779450241591),
+    icon: BusStopIcon,
   ));
   return busstops;
 }
 
-Set<Marker> busstopHmarkers() {
+Set<Marker> busstopHmarkers(BitmapDescriptor BusStopIcon) {
   Set<Marker> busstops = {};
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Hearst Mining Circle'),
     position: LatLng(37.873409528479364, -122.257404668861),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Strawberry Canyon Rec. Center'),
     position: LatLng(37.87260543245776, -122.24637937940552),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('UC Botanical Gardens'),
     position: LatLng(37.8754064159782, -122.23873524809895),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Lawrence Hall of Science'),
     position: LatLng(37.87996725455084, -122.24604628515657),
+    icon: BusStopIcon,
   ));
   busstops.add(Marker(
-    anchor: Offset(0.5, 0.5),
     markerId: MarkerId('Space Sciences Lab'),
     position: LatLng(37.88087881747547, -122.24451621429233),
+    icon: BusStopIcon,
   ));
+  return busstops;
+}
+
+Set<Marker> busstopCmarkers(BitmapDescriptor BusStopIcon) {
+  Set<Marker> busstops = {};
+  return busstops;
+}
+
+Set<Marker> busStopMarkers(int index, BitmapDescriptor BusStopIcon) {
+  Set<Marker> busstops = {};
+  if (index == 0) {
+    busstops = busstopCmarkers(BusStopIcon);
+  } else if (index == 1) {
+    busstops = busstopHmarkers(BusStopIcon);
+  } else if (index == 2) {
+    busstops = busstopPmarkers(BusStopIcon);
+  } else if (index == 3) {
+    busstops = busstopRmarkers(BusStopIcon);
+  }
   return busstops;
 }
 

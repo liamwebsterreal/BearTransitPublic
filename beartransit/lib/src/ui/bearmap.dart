@@ -11,13 +11,12 @@ import 'package:beartransit/src/blocs/ucpdmarker_state.dart';
 import 'package:beartransit/src/models/busLine.dart';
 import 'package:beartransit/src/resources/functions.dart';
 import 'package:beartransit/src/resources/style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animarker/flutter_map_marker_animation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../app.dart';
@@ -37,11 +36,18 @@ class _MapSampleState extends State<bearmap> {
 
   late Set<Polyline> polylines = {};
 
-  Set<Marker> cLine = {};
-  Set<Marker> hLine = {};
-  Set<Marker> pLine = {};
-  Set<Marker> rLine = {};
+  late BitmapDescriptor BusStopIcon;
+
+  Set<Marker> cLine_buses = {};
+  Set<Marker> hLine_buses = {};
+  Set<Marker> pLine_buses = {};
+  Set<Marker> rLine_buses = {};
   Set<Marker> ucpdMarkers = {};
+  Set<Marker> cBusStopMarkers = {};
+  Set<Marker> hBusStopMarkers = {};
+  Set<Marker> pBusStopMarkers = {};
+  Set<Marker> rBusStopMarkers = {};
+  Set<Marker> totalBusMarkers = {};
 
   busLine c_Line = returnCLine();
   busLine h_Line = returnHLine();
@@ -53,9 +59,29 @@ class _MapSampleState extends State<bearmap> {
     zoom: 15,
   );
 
+  void setCustomBusStopPin() async {
+    try {
+      BusStopIcon = await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(devicePixelRatio: 0.5),
+          'lib/src/resources/assets/busStop.png');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _callNumber() async {
+    const url = 'tel:9876543210';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    setCustomBusStopPin();
     ucpdbloc = BlocProvider.of(context);
     busbloc = BlocProvider.of(context);
     rootBundle
@@ -96,10 +122,14 @@ class _MapSampleState extends State<bearmap> {
               BlocListener<busBloc, busState>(
                 listener: (context, data) {
                   if (data is busLoadedState) {
-                    cLine = data.cLine;
-                    hLine = data.hLine;
-                    pLine = data.pLine;
-                    rLine = data.rLine;
+                    cLine_buses = data.cLine;
+                    hLine_buses = data.hLine;
+                    pLine_buses = data.pLine;
+                    rLine_buses = data.rLine;
+                    totalBusMarkers.addAll(cLine_buses);
+                    totalBusMarkers.addAll(hLine_buses);
+                    totalBusMarkers.addAll(pLine_buses);
+                    totalBusMarkers.addAll(rLine_buses);
                     setState(() {
                       _controller.future;
                     });
@@ -121,10 +151,7 @@ class _MapSampleState extends State<bearmap> {
                     mapType: MapType.normal,
                     compassEnabled: false,
                     polylines: polylines,
-                    markers: cLine.union(hLine).union(pLine).union(rLine),
-                    //.union(busstopHmarkers())
-                    //.union(busstopPmarkers())
-                    //.union(busstopRmarkers()),
+                    markers: totalBusMarkers.union(ucpdMarkers),
                     minMaxZoomPreference: new MinMaxZoomPreference(13, null),
                     cameraTargetBounds: new CameraTargetBounds(
                       new LatLngBounds(
@@ -143,6 +170,14 @@ class _MapSampleState extends State<bearmap> {
                     builder: (context, state) {
                       return busWidgetbuilder(state);
                     }),
+                /*Container(
+                    padding: EdgeInsets.only(
+                        top: SizeConfig.safeBlockVertical * 50,
+                        left: SizeConfig.safeBlockHorizontal * 1),
+                    child: ElevatedButton(
+                      onPressed: _callNumber,
+                      child: Text('UCPD', style: BodyStyle),
+                    )),*/
                 Padding(
                   padding: EdgeInsets.only(
                       top: SizeConfig.safeBlockVertical * 5,
@@ -204,9 +239,12 @@ class _MapSampleState extends State<bearmap> {
               child: busCard(
                   [state.cline, state.hline, state.pline, state.rline]
                       .elementAt(index),
-                  [cLine, hLine, pLine, rLine].elementAt(index)),
+                  [cLine_buses, hLine_buses, pLine_buses, rLine_buses]
+                      .elementAt(index)),
               onTap: () {
                 polylines = setColorpolylines(index);
+                Set<Marker> tempBusstops = busStopMarkers(index, BusStopIcon);
+                totalBusMarkers.addAll(tempBusstops);
                 buswidgetBloc.add(ChangeBusWidget(index));
 
                 setState(() {
@@ -334,10 +372,29 @@ class _MapSampleState extends State<bearmap> {
                             backgroundImage: line.profilePic,
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: SizeConfig.safeBlockHorizontal * 3),
-                          child: Text(line.name, style: TitleStyle),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.safeBlockHorizontal * 3),
+                              child: Text(
+                                line.name,
+                                style: TitleStyle,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.safeBlockHorizontal * 1),
+                              child: Text(
+                                line.subtitle,
+                                style: SubTitleStyle,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -347,6 +404,11 @@ class _MapSampleState extends State<bearmap> {
                         icon: Icon(Icons.close),
                         onPressed: () {
                           polylines = setGreyPolylines();
+                          totalBusMarkers.clear();
+                          totalBusMarkers.addAll(cLine_buses);
+                          totalBusMarkers.addAll(hLine_buses);
+                          totalBusMarkers.addAll(pLine_buses);
+                          totalBusMarkers.addAll(rLine_buses);
                           buswidgetBloc.add(ChangeBusWidget(5));
                           setState(() {
                             _controller.future;
@@ -417,7 +479,7 @@ class _MapSampleState extends State<bearmap> {
                               BoxShadow(
                                   color: Colors.black38,
                                   spreadRadius: 0,
-                                  blurRadius: 1),
+                                  blurRadius: 0.2),
                             ],
                           ),
                         ),
@@ -447,7 +509,7 @@ class _MapSampleState extends State<bearmap> {
                                       left: SizeConfig.safeBlockHorizontal * 1,
                                       right:
                                           SizeConfig.safeBlockHorizontal * 1),
-                                  child: Text(r"Free with Pass* · $1",
+                                  child: Text(r"Free with Pass* | $1",
                                       style: BodyStyle),
                                 )),
                               ],
@@ -465,7 +527,7 @@ class _MapSampleState extends State<bearmap> {
                                 BoxShadow(
                                     color: Colors.black38,
                                     spreadRadius: 0,
-                                    blurRadius: 1),
+                                    blurRadius: 0.2),
                               ],
                             ),
                           ),
